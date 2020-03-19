@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="clearfix">
     <goods-list-item v-for="(item, id) in goods" :key="id" :goodsItem="item">
       
     </goods-list-item>

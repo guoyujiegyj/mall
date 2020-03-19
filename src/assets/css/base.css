@@ -29,9 +29,10 @@ li {
 .r {
   float: right;
 }
-.clearfix {
+.clearfix:after,
+.clearfix:before {
   content: "";
-  display: block;
+  display: table;
   clear: both;
 }
 .clearfix {

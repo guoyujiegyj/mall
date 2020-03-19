@@ -1,56 +1,17 @@
 <template>
-  <div class="content">
+  <div class="home">
     <!--header-->
     <nav-bar class="home_nav">
       <div slot="center">蘑菇秀</div>
     </nav-bar>
-    <!--轮播-->
-    <swiper :banner="banner"></swiper>
-    <!---->
-    <recommend :recommend="recommend"></recommend>
-    <feature></feature>
-    <nav-control :titles="['流行','大卖', '新款']" @tabClick = tabClick></nav-control>
-    <goods-list :goods="activeTab"></goods-list>
-    <ul>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-      <li>dddddddddddddd</li>
-     
-     
-      <li>dddddddddddddd</li>
-    </ul>
+    <scroll class="content">
+      <!--轮播-->
+      <swiper :banner="banner"></swiper>
+      <!---->
+      <recommend :recommend="recommend"></recommend>
+      <nav-control :titles="['流行','大卖', '新款']" @tabClick = tabClick></nav-control>
+      <goods-list :goods="activeTab"></goods-list>
+    </scroll>
   </div>  
 </template>
 
@@ -61,6 +22,7 @@ import Recommend from 'views/home/childHome/Recommend'
 import Feature from 'views/home/childHome/Feature'
 import NavControl from 'components/content/navControl/NavControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import Scroll from 'components/common/scroll/BScroll'
 
 import {getHomeBanner, getHomeGoods} from 'network/home'
 export default {
@@ -137,23 +99,34 @@ export default {
     Recommend,
     Feature,
     NavControl,
-    GoodsList
+    GoodsList,
+    Scroll
   }
 }
 </script>
 
 <style scoped>
-  .content {
+  .home {
+    position: relative; 
     padding-top: 44px;
+    height: 100vh; 
   }
   .home_nav {
     position: fixed;
-    z-index: 10;
+    z-index: 1000;
     top: 0;
     left: 0;
     right: 0;
     background: #FF6B82;
     color: #fff;
   }
-
+  .content {
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
+    overflow: hidden;  
+    
+  }
 </style>
