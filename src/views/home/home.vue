@@ -54,6 +54,11 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
+
+    // 监听goodsItem的图片加载完成
+    this.$bus.$on('imgLoad',()=>{
+      this.$refs.scroll.scroll.refresh()
+    })
   },
   computed: {
     // 为商品组件传递的数据。
