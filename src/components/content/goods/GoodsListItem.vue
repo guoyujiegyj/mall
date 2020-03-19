@@ -18,9 +18,6 @@ export default {
 
     }
   },
-  created() {
-    console.log(this.goodsItem)
-  }
 }
 </script>
 <style scoped>
