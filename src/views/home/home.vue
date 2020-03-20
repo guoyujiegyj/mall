@@ -30,8 +30,11 @@ import NavControl from 'components/content/navControl/NavControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/BScroll'
 import BackTop from 'components/content/backTop/BackTop'
+import {debounce} from 'common/utils'
 
 import {getHomeBanner, getHomeGoods} from 'network/home'
+import { clearTimeout, setTimeout } from 'timers';
+import { clearLine } from 'readline';
 export default {
   data() {
     return {
@@ -41,6 +44,8 @@ export default {
       currentTab: 'pop',
       //控制返回顶部按钮的显示隐藏
       scrollPosition: false,
+      // 防抖动函数需要用到的变量
+      //timer: null,
       goods: {
         'pop': {page: 0, list: []},
         'sell': {page: 0, list: []},
@@ -54,10 +59,13 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
-
+  },
+  mounted() {
+    // 调用防抖函数
+    const refresh = debounce(this.$refs.scroll.refresh, 150)
     // 监听goodsItem的图片加载完成
     this.$bus.$on('imgLoad',()=>{
-      this.$refs.scroll.scroll.refresh()
+      refresh()
     })
   },
   computed: {
@@ -68,6 +76,7 @@ export default {
   },
   
   methods: {
+    
     // nav的tab点击时，改变currentTab
     tabClick(id) {
       //this.currentTab = this.goods[id]
@@ -95,7 +104,6 @@ export default {
     },
     // 上拉加载更多
     loadMore() {
-      console.log("ss")
       this.getHomeGoods(this.currentTab)
       this.$refs.scroll.finishPullUp()
       // refresh方法为了重新计算scroll的高度。

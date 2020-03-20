@@ -47,6 +47,12 @@ export default {
     //上拉加载更多默认只触发一次，如要触发多次，需要再每次触发后调用scroll的finishPullUp函数
     finishPullUp() {
       this.scroll.finishPullUp()
+    },
+
+    // 刷新，重新计算better-scroll的高度
+    refresh() {
+      this.scroll.refresh()
+      console.log('aaaaaaaaaaaaaass')
     }
     
   },
