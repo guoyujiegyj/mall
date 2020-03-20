@@ -40,9 +40,9 @@ export default {
     line-height: 40px;
     background: #fff;
     text-align: center;
-    position: sticky;
+    /* position: sticky;
     position: -webkit-sticky; 
-    top: 44px;
+    top: 44px; */
   }
   .nav-control-item {
     flex: 1;

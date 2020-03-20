@@ -2,7 +2,7 @@
   <swiper :options="swiperOption">
     <swiper-slide v-for="(item,id) in banner" :key="id">
       <a :href="item.link">
-        <img :src="item.image" alt="s">
+        <img :src="item.image" alt="s" @load="bannerLoad">
       </a>
     </swiper-slide>
     <!--点点-->
@@ -35,6 +35,11 @@ export default {
         // 圆点是否可以点击
         paginationClickable: true,
       },
+    }
+  },
+  methods: {
+    bannerLoad() {
+      this.$emit('bannerLoad')
     }
   },
   components: {

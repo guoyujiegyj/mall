@@ -4,6 +4,14 @@
     <nav-bar class="home_nav">
       <div slot="center">蘑菇秀</div>
     </nav-bar>
+    <!--nav-control:解决吸付问题-->
+    <nav-control class="navTab2" 
+                 :titles="['流行','大卖', '新款']" 
+                 @tabClick = tabClick 
+                 v-show="isTabFixed"
+                 ref="navControl2"
+                 >
+    </nav-control>
     <scroll class="content" ref="scroll" 
             :pullUpload='true' 
             :probe-type='3' 
@@ -11,10 +19,10 @@
             @pullUp=loadMore
             >
       <!--轮播-->
-      <swiper :banner="banner"></swiper>
+      <swiper :banner="banner" @bannerLoad=bannerLoad></swiper>
       <!---->
       <recommend :recommend="recommend"></recommend>
-      <nav-control :titles="['流行','大卖', '新款']" @tabClick = tabClick></nav-control>
+      <nav-control :titles="['流行','大卖', '新款']" @tabClick = tabClick ref="navControl1"></nav-control>
       <goods-list :goods="activeTab"></goods-list>
     </scroll>
     <back-top @click.native = backTop v-show="scrollPosition"></back-top>
@@ -44,8 +52,11 @@ export default {
       currentTab: 'pop',
       //控制返回顶部按钮的显示隐藏
       scrollPosition: false,
-      // 防抖动函数需要用到的变量
-      //timer: null,
+      // banner图片加载
+      isBannerImgLoad: false,
+      // 
+      navScrollTop: 0,
+      isTabFixed: false,
       goods: {
         'pop': {page: 0, list: []},
         'sell': {page: 0, list: []},
@@ -91,6 +102,8 @@ export default {
           this.currentTab = 'new'
           break
       }
+      this.$refs.navControl1.currentIndex=id
+      this.$refs.navControl2.currentIndex=id
     },
     // 点击时返回顶部
     backTop() {
@@ -99,8 +112,15 @@ export default {
     // 获取滚动的位置
     scrollContent(position) {
       let positionY = position.y
+      // 返回顶部按钮
       this.scrollPosition = -positionY>600
 
+      // navtab的吸附效果。
+      if(-positionY >= this.navScrollTop) {
+        this.isTabFixed = true
+      } else {
+        this.isTabFixed = false
+      }
     },
     // 上拉加载更多
     loadMore() {
@@ -131,6 +151,16 @@ export default {
         this.goods[type].list.push(...resList)
         this.goods[type].page++
       })
+    },
+
+    //$el: 获取组件里的根元素
+    // 当banner的图片加载完成后，计算navTab距顶部的高度。
+    bannerLoad() {
+      if(!this.isBannerImgLoad) {
+        this.navScrollTop = this.$refs.navControl1.$el.offsetTop
+        this.isBannerImgLoad = true
+      }
+      
     }
   },
   components: {
@@ -149,15 +179,16 @@ export default {
 <style scoped>
   .home {
     position: relative; 
-    padding-top: 44px;
+    /* padding-top: 44px; */
     height: 100vh; 
   }
   .home_nav {
-    position: fixed;
+    /* 使用better-scroll，没必要让header固定，因为bscroll的滚动不影响header。 */
+    /* position: fixed;
     z-index: 10;
     top: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     background: #FF6B82;
     color: #fff;
   }
@@ -182,4 +213,9 @@ export default {
     margin-top: 44px;
     height: calc(100% - 93px);
   } */
+
+  .navTab2 {
+    position: relative;
+    z-index: 11;
+  }
 </style>
