@@ -2,7 +2,7 @@
   <swiper :options="swiperOption">
     <swiper-slide v-for="(item,id) in banner" :key="id">
       <a :href="item.link">
-        <img :src="item.image" alt="s" @load="bannerLoad">
+        <img :src="item.image || item" alt="s" @load="bannerLoad">
       </a>
     </swiper-slide>
     <!--点点-->
@@ -45,6 +45,9 @@ export default {
   components: {
     swiper,
     swiperSlide
+  },
+  created() {
+    console.log(this.banner)
   }
 }
 </script>

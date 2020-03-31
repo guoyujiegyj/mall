@@ -1,3 +1,4 @@
+// 首页的数据请求相关的函数。
 import {request1, request2} from './request'
 
 // 首页轮播图数据

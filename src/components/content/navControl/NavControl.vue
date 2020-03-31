@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     navClick(id) {
+      console.log('click')
       this.currentIndex = id
       // 向外分发事件
       this.$emit('tabClick', id)

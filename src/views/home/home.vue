@@ -37,26 +37,29 @@ import Feature from 'views/home/childHome/Feature'
 import NavControl from 'components/content/navControl/NavControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/BScroll'
-import BackTop from 'components/content/backTop/BackTop'
+// import BackTop from 'components/content/backTop/BackTop'
 import {debounce} from 'common/utils'
 
 import {getHomeBanner, getHomeGoods} from 'network/home'
-import { clearTimeout, setTimeout } from 'timers';
-import { clearLine } from 'readline';
+import { backTop } from 'common/mixin.js'
+
 export default {
+  mixins: [backTop],
   data() {
     return {
       banner: [],
       recommend: [],
       // 当前tab栏默认为流行
       currentTab: 'pop',
-      //控制返回顶部按钮的显示隐藏
-      scrollPosition: false,
+      // //控制返回顶部按钮的显示隐藏
+      // scrollPosition: false,
       // banner图片加载
       isBannerImgLoad: false,
-      // 
+      // nav的吸附效果
       navScrollTop: 0,
       isTabFixed: false,
+      // 当离开首页时，记录位置
+      leaveHeight: 0,
       goods: {
         'pop': {page: 0, list: []},
         'sell': {page: 0, list: []},
@@ -85,7 +88,13 @@ export default {
       return this.goods[this.currentTab].list
     }
   },
-  
+  destroyed() {
+    this.$refs.scroll.backTop(0, this.leaveHeight, 0)
+  },
+  activated() {
+    // 保存离开首页时的位置
+    this.leaveHeight = this.$refs.scroll.getScrollHeight()
+  },
   methods: {
     
     // nav的tab点击时，改变currentTab
@@ -105,10 +114,10 @@ export default {
       this.$refs.navControl1.currentIndex=id
       this.$refs.navControl2.currentIndex=id
     },
-    // 点击时返回顶部
-    backTop() {
-      this.$refs.scroll.backTop(0, 0, 800)
-    },
+    // // 点击时返回顶部
+    // backTop() {
+    //   this.$refs.scroll.backTop(0, 0, 800)
+    // },
     // 获取滚动的位置
     scrollContent(position) {
       let positionY = position.y
@@ -160,7 +169,6 @@ export default {
         this.navScrollTop = this.$refs.navControl1.$el.offsetTop
         this.isBannerImgLoad = true
       }
-      
     }
   },
   components: {
@@ -170,8 +178,7 @@ export default {
     Feature,
     NavControl,
     GoodsList,
-    Scroll,
-    BackTop
+    Scroll
   }
 }
 </script>
@@ -191,6 +198,7 @@ export default {
     right: 0; */
     background: #FF6B82;
     color: #fff;
+    font-size: 18px;
   }
   /* 
   *

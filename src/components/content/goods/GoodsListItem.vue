@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item">
+  <div class="goods-item" @click="toItem(goodsItem.iid)">
     <img :src="goodsItem.show.img" alt="ss" @load="imgLoad">
     <div class="goods-info">
       <p class="">{{goodsItem.title}}</p>
@@ -23,6 +23,10 @@ export default {
     imgLoad() {
       // 通过bus总线向外分发事件
       this.$bus.$emit('imgLoad')
+    },
+
+    toItem(id) {
+      this.$router.push('/detail/' + id)
     }
   }
 }

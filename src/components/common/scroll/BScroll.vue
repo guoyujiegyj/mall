@@ -20,6 +20,7 @@ export default {
     }
   },
   mounted() {
+    
     // 实例化better-scroll
     this.scroll = new BScroll(this.$refs.scroll, {
       probeType: this.probeType,
@@ -36,7 +37,6 @@ export default {
     this.scroll.on('pullingUp',()=>{
       this.$emit('pullUp')
     })
-
   },
 
   methods: {
@@ -44,6 +44,7 @@ export default {
     backTop(x, y, time=500) {
       this.scroll.scrollTo(x, y, time)
     },
+
     //上拉加载更多默认只触发一次，如要触发多次，需要再每次触发后调用scroll的finishPullUp函数
     finishPullUp() {
       this.scroll.finishPullUp()
@@ -52,9 +53,14 @@ export default {
     // 刷新，重新计算better-scroll的高度
     refresh() {
       this.scroll.refresh()
-      console.log('aaaaaaaaaaaaaass')
-    }
+      console.log('重新加载')
+    },
     
+    // 通过scroll.y获取滚动的高度
+    getScrollHeight() {
+      return this.scroll.y
+    }
+
   },
   components: {
 
